@@ -724,7 +724,7 @@ export interface TypeParameter extends Node {
 
 export interface TypeParameterDeclaration extends Node {
   type: "TypeParameterDeclaration";
-  params: Identifier[];
+  params: TypeParameter[];
 }
 
 export interface TypeParameterInstantiation extends Node {
@@ -1287,7 +1287,7 @@ export type Flow = AnyTypeAnnotation | ArrayTypeAnnotation | BooleanTypeAnnotati
   | ClassImplements | ClassProperty | DeclareClass | DeclareFunction | DeclareInterface | DeclareModule
   | DeclareTypeAlias | DeclareVariable | ExistentialTypeParam | FunctionTypeAnnotation | FunctionTypeParam
   | GenericTypeAnnotation | InterfaceExtends | InterfaceDeclaration | IntersectionTypeAnnotation
-  | MixedTypeAnnotation | NullableTypeAnnotation | NumericLiteralTypeAnnotation | NumberTypeAnnotation
+  | MixedTypeAnnotation | NullableTypeAnnotation | NullLiteralTypeAnnotation | NumericLiteralTypeAnnotation | NumberTypeAnnotation
   | StringLiteralTypeAnnotation | StringTypeAnnotation | ThisTypeAnnotation | TupleTypeAnnotation
   | TypeofTypeAnnotation | TypeAlias | TypeAnnotation | TypeCastExpression | TypeParameterDeclaration
   | TypeParameterInstantiation | ObjectTypeAnnotation | ObjectTypeCallProperty | ObjectTypeIndexer
@@ -1295,7 +1295,7 @@ export type Flow = AnyTypeAnnotation | ArrayTypeAnnotation | BooleanTypeAnnotati
 
 export type FlowTypeAnnotation = AnyTypeAnnotation | ArrayTypeAnnotation | BooleanTypeAnnotation
   | BooleanLiteralTypeAnnotation | FunctionTypeAnnotation | GenericTypeAnnotation | IntersectionTypeAnnotation
-  | MixedTypeAnnotation | NullableTypeAnnotation | NumericLiteralTypeAnnotation | NumberTypeAnnotation
+  | MixedTypeAnnotation | NullableTypeAnnotation | NullLiteralTypeAnnotation | NumericLiteralTypeAnnotation | NumberTypeAnnotation
   | StringLiteralTypeAnnotation | StringTypeAnnotation | ThisTypeAnnotation | TupleTypeAnnotation
   | TypeofTypeAnnotation | TypeAnnotation | ObjectTypeAnnotation | UnionTypeAnnotation | VoidTypeAnnotation;
 
@@ -1479,7 +1479,7 @@ export function tSEnumMember(id: Identifier | StringLiteral, initializer?: Expre
 export function tSExportAssignment(expression: Expression): TSExportAssignment;
 export function tSExpressionWithTypeArguments(expression: TSEntityName, typeParameters?: TypeParameterInstantiation): TSExpressionWithTypeArguments;
 export function tSExternalModuleReference(expression: StringLiteral): TSExternalModuleReference;
-export function tSFunctionType(typeParameters?: TypeParameterDeclaration, typeAnnotation?: TSTypeAnnotation): TSFunctionType;
+export function tSFunctionType(typeParameters?: TSTypeParameterDeclaration, typeAnnotation?: TSTypeAnnotation): TSFunctionType;
 export function tSImportEqualsDeclaration(id: Identifier, moduleReference: TSEntityName | TSExternalModuleReference): TSImportEqualsDeclaration;
 export function tSIndexSignature(parameters: Identifier[], typeAnnotation?: TSTypeAnnotation): TSIndexSignature;
 export function tSIndexedAccessType(objectType: TSType, indexType: TSType): TSIndexedAccessType;
