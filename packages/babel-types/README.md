@@ -314,7 +314,7 @@ See also `t.isClassImplements(node, opts)` and `t.assertClassImplements(node, op
 Aliases: `Flow`
 
  - `id` (required)
- - `typeParameters` (required)
+ - `typeParameters` (default: `null`)
 
 ---
 
