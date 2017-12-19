@@ -1,5 +1,5 @@
 import map from "lodash/map";
-import * as t from "@babel/types";
+import * as t from "../../../babel-types/lib";
 
 type WhitespaceObject = {
   before?: boolean,
