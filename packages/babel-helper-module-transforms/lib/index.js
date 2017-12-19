@@ -28,15 +28,16 @@ exports.hasExports = _normalizeAndLoadMetadata.hasExports;
 exports.isSideEffectImport = _normalizeAndLoadMetadata.isSideEffectImport;
 
 var _templateObject = _taggedTemplateLiteralLoose(["var NAME = SOURCE;"], ["var NAME = SOURCE;"]),
-    _templateObject2 = _taggedTemplateLiteralLoose(["EXPORTS.NAME = NAMESPACE;"], ["EXPORTS.NAME = NAMESPACE;"]),
-    _templateObject3 = _taggedTemplateLiteralLoose(["EXPORTS.EXPORT_NAME = NAMESPACE.IMPORT_NAME;"], ["EXPORTS.EXPORT_NAME = NAMESPACE.IMPORT_NAME;"]),
-    _templateObject4 = _taggedTemplateLiteralLoose(["\n      Object.defineProperty(EXPORTS, \"EXPORT_NAME\", {\n        enumerable: true,\n        get: function() {\n          return NAMESPACE.IMPORT_NAME;\n        },\n      });\n    "], ["\n      Object.defineProperty(EXPORTS, \"EXPORT_NAME\", {\n        enumerable: true,\n        get: function() {\n          return NAMESPACE.IMPORT_NAME;\n        },\n      });\n    "]),
-    _templateObject5 = _taggedTemplateLiteralLoose(["\n        EXPORTS.__esModule = true;\n      "], ["\n        EXPORTS.__esModule = true;\n      "]),
-    _templateObject6 = _taggedTemplateLiteralLoose(["\n        Object.defineProperty(EXPORTS, \"__esModule\", {\n          value: true,\n        });\n      "], ["\n        Object.defineProperty(EXPORTS, \"__esModule\", {\n          value: true,\n        });\n      "]),
-    _templateObject7 = _taggedTemplateLiteralLoose(["\n        Object.keys(NAMESPACE).forEach(function(key) {\n          if (key === \"default\" || key === \"__esModule\") return;\n          VERIFY_NAME_LIST;\n\n          EXPORTS[key] = NAMESPACE[key];\n        });\n      "], ["\n        Object.keys(NAMESPACE).forEach(function(key) {\n          if (key === \"default\" || key === \"__esModule\") return;\n          VERIFY_NAME_LIST;\n\n          EXPORTS[key] = NAMESPACE[key];\n        });\n      "]),
-    _templateObject8 = _taggedTemplateLiteralLoose(["\n        Object.keys(NAMESPACE).forEach(function(key) {\n          if (key === \"default\" || key === \"__esModule\") return;\n          VERIFY_NAME_LIST;\n\n          Object.defineProperty(EXPORTS, key, {\n            enumerable: true,\n            get: function() {\n              return NAMESPACE[key];\n            },\n          });\n        });\n    "], ["\n        Object.keys(NAMESPACE).forEach(function(key) {\n          if (key === \"default\" || key === \"__esModule\") return;\n          VERIFY_NAME_LIST;\n\n          Object.defineProperty(EXPORTS, key, {\n            enumerable: true,\n            get: function() {\n              return NAMESPACE[key];\n            },\n          });\n        });\n    "]),
-    _templateObject9 = _taggedTemplateLiteralLoose(["\n            if (Object.prototype.hasOwnProperty.call(EXPORTS_LIST, key)) return;\n          "], ["\n            if (Object.prototype.hasOwnProperty.call(EXPORTS_LIST, key)) return;\n          "]),
-    _templateObject10 = _taggedTemplateLiteralLoose(["EXPORTS.NAME = VALUE"], ["EXPORTS.NAME = VALUE"]);
+    _templateObject2 = _taggedTemplateLiteralLoose(["\n            Object.defineProperty(EXPORTS, \"NAME\", {\n              enumerable: true,\n              get: function() {\n                return NAMESPACE;\n              }\n            });\n          "], ["\n            Object.defineProperty(EXPORTS, \"NAME\", {\n              enumerable: true,\n              get: function() {\n                return NAMESPACE;\n              }\n            });\n          "]),
+    _templateObject3 = _taggedTemplateLiteralLoose(["EXPORTS.NAME = NAMESPACE;"], ["EXPORTS.NAME = NAMESPACE;"]),
+    _templateObject4 = _taggedTemplateLiteralLoose(["EXPORTS.EXPORT_NAME = NAMESPACE.IMPORT_NAME;"], ["EXPORTS.EXPORT_NAME = NAMESPACE.IMPORT_NAME;"]),
+    _templateObject5 = _taggedTemplateLiteralLoose(["\n      Object.defineProperty(EXPORTS, \"EXPORT_NAME\", {\n        enumerable: true,\n        get: function() {\n          return NAMESPACE.IMPORT_NAME;\n        },\n      });\n    "], ["\n      Object.defineProperty(EXPORTS, \"EXPORT_NAME\", {\n        enumerable: true,\n        get: function() {\n          return NAMESPACE.IMPORT_NAME;\n        },\n      });\n    "]),
+    _templateObject6 = _taggedTemplateLiteralLoose(["\n        EXPORTS.__esModule = true;\n      "], ["\n        EXPORTS.__esModule = true;\n      "]),
+    _templateObject7 = _taggedTemplateLiteralLoose(["\n        Object.defineProperty(EXPORTS, \"__esModule\", {\n          value: true,\n        });\n      "], ["\n        Object.defineProperty(EXPORTS, \"__esModule\", {\n          value: true,\n        });\n      "]),
+    _templateObject8 = _taggedTemplateLiteralLoose(["\n        Object.keys(NAMESPACE).forEach(function(key) {\n          if (key === \"default\" || key === \"__esModule\") return;\n          VERIFY_NAME_LIST;\n\n          EXPORTS[key] = NAMESPACE[key];\n        });\n      "], ["\n        Object.keys(NAMESPACE).forEach(function(key) {\n          if (key === \"default\" || key === \"__esModule\") return;\n          VERIFY_NAME_LIST;\n\n          EXPORTS[key] = NAMESPACE[key];\n        });\n      "]),
+    _templateObject9 = _taggedTemplateLiteralLoose(["\n        Object.keys(NAMESPACE).forEach(function(key) {\n          if (key === \"default\" || key === \"__esModule\") return;\n          VERIFY_NAME_LIST;\n\n          Object.defineProperty(EXPORTS, key, {\n            enumerable: true,\n            get: function() {\n              return NAMESPACE[key];\n            },\n          });\n        });\n    "], ["\n        Object.keys(NAMESPACE).forEach(function(key) {\n          if (key === \"default\" || key === \"__esModule\") return;\n          VERIFY_NAME_LIST;\n\n          Object.defineProperty(EXPORTS, key, {\n            enumerable: true,\n            get: function() {\n              return NAMESPACE[key];\n            },\n          });\n        });\n    "]),
+    _templateObject10 = _taggedTemplateLiteralLoose(["\n            if (Object.prototype.hasOwnProperty.call(EXPORTS_LIST, key)) return;\n          "], ["\n            if (Object.prototype.hasOwnProperty.call(EXPORTS_LIST, key)) return;\n          "]),
+    _templateObject11 = _taggedTemplateLiteralLoose(["EXPORTS.NAME = VALUE"], ["EXPORTS.NAME = VALUE"]);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
@@ -50,12 +51,14 @@ function rewriteModuleStatementsAndPrepareHeader(path, _ref) {
       allowTopLevelThis = _ref.allowTopLevelThis,
       strictMode = _ref.strictMode,
       loose = _ref.loose,
-      noInterop = _ref.noInterop;
+      noInterop = _ref.noInterop,
+      lazy = _ref.lazy;
   (0, _assert.default)((0, _helperModuleImports.isModule)(path), "Cannot process module statements in a script");
   path.node.sourceType = "script";
   var meta = (0, _normalizeAndLoadMetadata.default)(path, exportName, {
     noInterop: noInterop,
-    loose: loose
+    loose: loose,
+    lazy: lazy
   });
 
   if (!allowTopLevelThis) {
@@ -124,6 +127,8 @@ function buildNamespaceInitStatements(metadata, sourceMetadata, loose) {
   }
 
   var statements = [];
+  var srcNamespace = t.identifier(sourceMetadata.name);
+  if (sourceMetadata.lazy) srcNamespace = t.callExpression(srcNamespace, []);
 
   for (var _iterator = sourceMetadata.importsNamespace, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
     var _ref2;
@@ -141,7 +146,7 @@ function buildNamespaceInitStatements(metadata, sourceMetadata, loose) {
     if (_localName === sourceMetadata.name) continue;
     statements.push(_template.default.statement(_templateObject)({
       NAME: _localName,
-      SOURCE: sourceMetadata.name
+      SOURCE: t.cloneDeep(srcNamespace)
     }));
   }
 
@@ -162,15 +167,15 @@ function buildNamespaceInitStatements(metadata, sourceMetadata, loose) {
     }
 
     var _exportName = _ref3;
-    statements.push(_template.default.statement(_templateObject2)({
+    statements.push((sourceMetadata.lazy ? _template.default.statement(_templateObject2) : _template.default.statement(_templateObject3))({
       EXPORTS: metadata.exportName,
       NAME: _exportName,
-      NAMESPACE: sourceMetadata.name
+      NAMESPACE: t.cloneDeep(srcNamespace)
     }));
   }
 
   if (sourceMetadata.reexportAll) {
-    var statement = buildNamespaceReexport(metadata, sourceMetadata.name, loose);
+    var statement = buildNamespaceReexport(metadata, t.cloneDeep(srcNamespace), loose);
     statement.loc = sourceMetadata.reexportAll.loc;
     statements.push(statement);
   }
@@ -179,10 +184,11 @@ function buildNamespaceInitStatements(metadata, sourceMetadata, loose) {
 }
 
 var getTemplateForReexport = function getTemplateForReexport(loose) {
-  return loose ? _template.default.statement(_templateObject3) : (0, _template.default)(_templateObject4);
+  return loose ? _template.default.statement(_templateObject4) : (0, _template.default)(_templateObject5);
 };
 
 var buildReexportsFromMeta = function buildReexportsFromMeta(meta, metadata, loose) {
+  var namespace = metadata.lazy ? t.callExpression(t.identifier(metadata.name), []) : t.identifier(metadata.name);
   var templateForCurrentMode = getTemplateForReexport(loose);
   return Array.from(metadata.reexports, function (_ref4) {
     var exportName = _ref4[0],
@@ -190,7 +196,7 @@ var buildReexportsFromMeta = function buildReexportsFromMeta(meta, metadata, loo
     return templateForCurrentMode({
       EXPORTS: meta.exportName,
       EXPORT_NAME: exportName,
-      NAMESPACE: metadata.name,
+      NAMESPACE: t.cloneDeep(namespace),
       IMPORT_NAME: importName
     });
   });
@@ -201,16 +207,16 @@ function buildESModuleHeader(metadata, enumerable) {
     enumerable = false;
   }
 
-  return (enumerable ? _template.default.statement(_templateObject5) : _template.default.statement(_templateObject6))({
+  return (enumerable ? _template.default.statement(_templateObject6) : _template.default.statement(_templateObject7))({
     EXPORTS: metadata.exportName
   });
 }
 
 function buildNamespaceReexport(metadata, namespace, loose) {
-  return (loose ? _template.default.statement(_templateObject7) : _template.default.statement(_templateObject8))({
+  return (loose ? _template.default.statement(_templateObject8) : _template.default.statement(_templateObject9))({
     NAMESPACE: namespace,
     EXPORTS: metadata.exportName,
-    VERIFY_NAME_LIST: metadata.exportNameListName ? (0, _template.default)(_templateObject9)({
+    VERIFY_NAME_LIST: metadata.exportNameListName ? (0, _template.default)(_templateObject10)({
       EXPORTS_LIST: metadata.exportNameListName
     }) : null
   });
@@ -384,7 +390,7 @@ function buildExportInitializationStatements(programPath, metadata, loose) {
 
 function buildInitStatement(metadata, exportNames, initExpr) {
   return t.expressionStatement(exportNames.reduce(function (acc, exportName) {
-    return _template.default.expression(_templateObject10)({
+    return _template.default.expression(_templateObject11)({
       EXPORTS: metadata.exportName,
       NAME: exportName,
       VALUE: acc

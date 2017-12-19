@@ -91,6 +91,7 @@ var ReplaceSupers = function () {
     this.isStatic = void 0;
     this.hasSuper = void 0;
     this.inClass = void 0;
+    this.inConstructor = void 0;
     this.isLoose = void 0;
     this.scope = void 0;
     this.file = void 0;
@@ -102,6 +103,7 @@ var ReplaceSupers = function () {
     this.isStatic = opts.isStatic;
     this.hasSuper = false;
     this.inClass = inClass;
+    this.inConstructor = opts.inConstructor;
     this.isLoose = opts.isLoose;
     this.scope = this.methodPath.scope;
     this.file = opts.file;
@@ -122,7 +124,13 @@ var ReplaceSupers = function () {
   };
 
   _proto.getSuperProperty = function getSuperProperty(property, isComputed) {
-    return t.callExpression(this.file.addHelper("get"), [getPrototypeOfExpression(this.getObjectRef(), this.isStatic), isComputed ? property : t.stringLiteral(property.name), t.thisExpression()]);
+    var thisExpr = t.thisExpression();
+
+    if (this.inConstructor) {
+      thisExpr = t.callExpression(this.file.addHelper("assertThisInitialized"), [thisExpr]);
+    }
+
+    return t.callExpression(this.file.addHelper("get"), [getPrototypeOfExpression(this.getObjectRef(), this.isStatic), isComputed ? property : t.stringLiteral(property.name), thisExpr]);
   };
 
   _proto.replace = function replace() {

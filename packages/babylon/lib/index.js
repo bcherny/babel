@@ -2427,7 +2427,7 @@ function (_NodeUtils) {
         var arg = last.argument;
         this.toAssignable(arg, isBinding, contextDescription);
 
-        if (arg.type !== "Identifier" && arg.type !== "MemberExpression" && arg.type !== "ArrayPattern") {
+        if (["Identifier", "MemberExpression", "ArrayPattern", "ObjectPattern"].indexOf(arg.type) === -1) {
           this.unexpected(arg.start);
         }
 
@@ -6520,6 +6520,8 @@ var flowPlugin = (function (superClass) {
 
           if (this.isRelational("<") || this.match(types.parenL)) {
             // This is a method property
+            node.method = true;
+
             if (variance) {
               this.unexpected(variance.start);
             }
@@ -6531,6 +6533,7 @@ var flowPlugin = (function (superClass) {
             }
           } else {
             if (kind !== "init") this.unexpected();
+            node.method = false;
 
             if (this.eat(types.question)) {
               optional = true;
@@ -8741,9 +8744,9 @@ var typescriptPlugin = (function (superClass) {
         false);
       };
       /**
-      * If !expectSuccess, returns undefined instead of failing to parse.
-      * If expectSuccess, parseElement should always return a defined value.
-      */
+       * If !expectSuccess, returns undefined instead of failing to parse.
+       * If expectSuccess, parseElement should always return a defined value.
+       */
 
 
       _proto.tsParseDelimitedListWorker = function tsParseDelimitedListWorker(kind, parseElement, expectSuccess) {

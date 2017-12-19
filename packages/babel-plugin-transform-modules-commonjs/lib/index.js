@@ -9,7 +9,9 @@ var _helperSimpleAccess = _interopRequireDefault(require("@babel/helper-simple-a
 
 var _core = require("@babel/core");
 
-var _templateObject = _taggedTemplateLiteralLoose(["\n    (function(){\n      throw new Error(\"The CommonJS '\" + \"", "\" + \"' variable is not available in ES6 modules.\");\n    })()\n  "], ["\n    (function(){\n      throw new Error(\"The CommonJS '\" + \"", "\" + \"' variable is not available in ES6 modules.\");\n    })()\n  "]);
+var _templateObject = _taggedTemplateLiteralLoose(["\n    (function(){\n      throw new Error(\"The CommonJS '\" + \"", "\" + \"' variable is not available in ES6 modules.\");\n    })()\n  "], ["\n    (function(){\n      throw new Error(\"The CommonJS '\" + \"", "\" + \"' variable is not available in ES6 modules.\");\n    })()\n  "]),
+    _templateObject2 = _taggedTemplateLiteralLoose(["\n                  function ", "() {\n                    const data = ", ";\n                    ", " = function(){ return data; };\n                    return data;\n                  }\n                "], ["\n                  function ", "() {\n                    const data = ", ";\n                    ", " = function(){ return data; };\n                    return data;\n                  }\n                "]),
+    _templateObject3 = _taggedTemplateLiteralLoose(["\n                  var ", " = ", ";\n                "], ["\n                  var ", " = ", ";\n                "]);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21,8 +23,16 @@ function _default(api, options) {
       strict = options.strict,
       strictMode = options.strictMode,
       noInterop = options.noInterop,
+      _options$lazy = options.lazy,
+      lazy = _options$lazy === void 0 ? false : _options$lazy,
       _options$allowCommonJ = options.allowCommonJSExports,
       allowCommonJSExports = _options$allowCommonJ === void 0 ? true : _options$allowCommonJ;
+
+  if (typeof lazy !== "boolean" && typeof lazy !== "function" && (!Array.isArray(lazy) || !lazy.every(function (item) {
+    return typeof item === "string";
+  }))) {
+    throw new Error(".lazy must be a boolean, array of strings, or a function");
+  }
 
   var getAssertion = function getAssertion(localName) {
     return _core.template.expression.ast(_templateObject, localName);
@@ -102,7 +112,8 @@ function _default(api, options) {
             strict: strict,
             strictMode: strictMode,
             allowTopLevelThis: allowTopLevelThis,
-            noInterop: noInterop
+            noInterop: noInterop,
+            lazy: lazy
           }),
               meta = _rewriteModuleStateme.meta,
               headers = _rewriteModuleStateme.headers;
@@ -128,9 +139,16 @@ function _default(api, options) {
             var header = void 0;
 
             if ((0, _helperModuleTransforms.isSideEffectImport)(_metadata)) {
+              if (_metadata.lazy) throw new Error("Assertion failure");
               header = _core.types.expressionStatement(loadExpr);
             } else {
-              header = _core.types.variableDeclaration("var", [_core.types.variableDeclarator(_core.types.identifier(_metadata.name), (0, _helperModuleTransforms.wrapInterop)(path, loadExpr, _metadata.interop) || loadExpr)]);
+              var init = (0, _helperModuleTransforms.wrapInterop)(path, loadExpr, _metadata.interop) || loadExpr;
+
+              if (_metadata.lazy) {
+                header = _core.template.ast(_templateObject2, _metadata.name, init, _metadata.name);
+              } else {
+                header = _core.template.ast(_templateObject3, _metadata.name, init);
+              }
             }
 
             header.loc = _metadata.loc;

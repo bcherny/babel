@@ -42,7 +42,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
   builder: ["params", "body", "async"],
   visitor: ["params", "body", "returnType", "typeParameters"],
   aliases: ["Scopable", "Function", "BlockParent", "FunctionParent", "Expression", "Pureish"],
-  fields: Object.assign({}, _core.functionCommon, {
+  fields: Object.assign({}, _core.functionCommon, _core.functionTypeAnnotationCommon, {
     expression: {
       validate: (0, _utils.assertValueType)("boolean")
     },
@@ -61,7 +61,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 });
 var classCommon = {
   typeParameters: {
-    validate: (0, _utils.assertNodeType)("TypeParameterDeclaration", "Noop"),
+    validate: (0, _utils.assertNodeType)("TypeParameterDeclaration", "TSTypeParameterDeclaration", "Noop"),
     optional: true
   },
   body: {
@@ -72,7 +72,7 @@ var classCommon = {
     validate: (0, _utils.assertNodeType)("Expression")
   },
   superTypeParameters: {
-    validate: (0, _utils.assertNodeType)("TypeParameterInstantiation"),
+    validate: (0, _utils.assertNodeType)("TypeParameterInstantiation", "TSTypeParameterInstantiation"),
     optional: true
   },
   implements: {
@@ -299,7 +299,7 @@ exports.classMethodOrDeclareMethodCommon = classMethodOrDeclareMethodCommon;
   aliases: ["Function", "Scopable", "BlockParent", "FunctionParent", "Method"],
   builder: ["kind", "key", "params", "body", "computed", "static"],
   visitor: ["key", "params", "body", "decorators", "returnType", "typeParameters"],
-  fields: Object.assign({}, classMethodOrDeclareMethodCommon, {
+  fields: Object.assign({}, classMethodOrDeclareMethodCommon, _core.functionTypeAnnotationCommon, {
     body: {
       validate: (0, _utils.assertNodeType)("BlockStatement")
     }

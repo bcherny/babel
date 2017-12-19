@@ -29,7 +29,9 @@ function normalizeModuleAndLoadMetadata(programPath, exportName, _temp) {
       _ref2$noInterop = _ref2.noInterop,
       noInterop = _ref2$noInterop === void 0 ? false : _ref2$noInterop,
       _ref2$loose = _ref2.loose,
-      loose = _ref2$loose === void 0 ? false : _ref2$loose;
+      loose = _ref2$loose === void 0 ? false : _ref2$loose,
+      _ref2$lazy = _ref2.lazy,
+      lazy = _ref2$lazy === void 0 ? false : _ref2$lazy;
 
   if (!exportName) {
     exportName = programPath.scope.generateUidIdentifier("exports").name;
@@ -37,7 +39,10 @@ function normalizeModuleAndLoadMetadata(programPath, exportName, _temp) {
 
   nameAnonymousExports(programPath);
 
-  var _getModuleMetadata = getModuleMetadata(programPath, loose),
+  var _getModuleMetadata = getModuleMetadata(programPath, {
+    loose: loose,
+    lazy: lazy
+  }),
       local = _getModuleMetadata.local,
       source = _getModuleMetadata.source;
 
@@ -73,7 +78,9 @@ function normalizeModuleAndLoadMetadata(programPath, exportName, _temp) {
   };
 }
 
-function getModuleMetadata(programPath, loose) {
+function getModuleMetadata(programPath, _ref6) {
+  var loose = _ref6.loose,
+      lazy = _ref6.lazy;
   var localData = getLocalExportMetadata(programPath, loose);
   var sourceData = new Map();
 
@@ -90,7 +97,8 @@ function getModuleMetadata(programPath, loose) {
         importsNamespace: new Set(),
         reexports: new Map(),
         reexportNamespace: new Set(),
-        reexportAll: null
+        reexportAll: null,
+        lazy: false
       };
       sourceData.set(source, data);
     }
@@ -172,63 +180,92 @@ function getModuleMetadata(programPath, loose) {
   });
 
   for (var _iterator2 = sourceData.values(), _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
-    var _ref6;
+    var _ref7;
 
     if (_isArray2) {
       if (_i2 >= _iterator2.length) break;
-      _ref6 = _iterator2[_i2++];
+      _ref7 = _iterator2[_i2++];
     } else {
       _i2 = _iterator2.next();
       if (_i2.done) break;
-      _ref6 = _i2.value;
+      _ref7 = _i2.value;
     }
 
-    var _metadata2 = _ref6;
+    var _metadata3 = _ref7;
 
-    if (_metadata2.importsNamespace.size > 0) {
-      _metadata2.interop = "namespace";
+    if (_metadata3.importsNamespace.size > 0) {
+      _metadata3.interop = "namespace";
       continue;
     }
 
     var needsDefault = false;
     var needsNamed = false;
 
-    for (var _iterator3 = _metadata2.imports.values(), _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator]();;) {
-      var _ref7;
-
-      if (_isArray3) {
-        if (_i3 >= _iterator3.length) break;
-        _ref7 = _iterator3[_i3++];
-      } else {
-        _i3 = _iterator3.next();
-        if (_i3.done) break;
-        _ref7 = _i3.value;
-      }
-
-      var _importName2 = _ref7;
-      if (_importName2 === "default") needsDefault = true;else needsNamed = true;
-    }
-
-    for (var _iterator4 = _metadata2.reexports.values(), _isArray4 = Array.isArray(_iterator4), _i4 = 0, _iterator4 = _isArray4 ? _iterator4 : _iterator4[Symbol.iterator]();;) {
-      var _ref8;
+    for (var _iterator4 = _metadata3.imports.values(), _isArray4 = Array.isArray(_iterator4), _i4 = 0, _iterator4 = _isArray4 ? _iterator4 : _iterator4[Symbol.iterator]();;) {
+      var _ref10;
 
       if (_isArray4) {
         if (_i4 >= _iterator4.length) break;
-        _ref8 = _iterator4[_i4++];
+        _ref10 = _iterator4[_i4++];
       } else {
         _i4 = _iterator4.next();
         if (_i4.done) break;
-        _ref8 = _i4.value;
+        _ref10 = _i4.value;
       }
 
-      var _importName3 = _ref8;
+      var _importName2 = _ref10;
+      if (_importName2 === "default") needsDefault = true;else needsNamed = true;
+    }
+
+    for (var _iterator5 = _metadata3.reexports.values(), _isArray5 = Array.isArray(_iterator5), _i5 = 0, _iterator5 = _isArray5 ? _iterator5 : _iterator5[Symbol.iterator]();;) {
+      var _ref11;
+
+      if (_isArray5) {
+        if (_i5 >= _iterator5.length) break;
+        _ref11 = _iterator5[_i5++];
+      } else {
+        _i5 = _iterator5.next();
+        if (_i5.done) break;
+        _ref11 = _i5.value;
+      }
+
+      var _importName3 = _ref11;
       if (_importName3 === "default") needsDefault = true;else needsNamed = true;
     }
 
     if (needsDefault && needsNamed) {
-      _metadata2.interop = "namespace";
+      _metadata3.interop = "namespace";
     } else if (needsDefault) {
-      _metadata2.interop = "default";
+      _metadata3.interop = "default";
+    }
+  }
+
+  for (var _iterator3 = sourceData, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator]();;) {
+    var _ref9;
+
+    if (_isArray3) {
+      if (_i3 >= _iterator3.length) break;
+      _ref9 = _iterator3[_i3++];
+    } else {
+      _i3 = _iterator3.next();
+      if (_i3.done) break;
+      _ref9 = _i3.value;
+    }
+
+    var _ref12 = _ref9;
+    var _source2 = _ref12[0];
+    var _metadata4 = _ref12[1];
+
+    if (lazy !== false && !(isSideEffectImport(_metadata4) || _metadata4.reexportAll)) {
+      if (lazy === true) {
+        _metadata4.lazy = !/\./.test(_source2);
+      } else if (Array.isArray(lazy)) {
+        _metadata4.lazy = lazy.indexOf(_source2);
+      } else if (typeof lazy === "function") {
+        _metadata4.lazy = lazy(_source2);
+      } else {
+        throw new Error(".lazy must be a boolean, string array, or function");
+      }
     }
   }
 

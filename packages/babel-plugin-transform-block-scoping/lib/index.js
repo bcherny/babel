@@ -544,21 +544,22 @@ var BlockScoping = function () {
     };
 
     if (block.body) {
+      var declarPaths = this.blockPath.get("body");
+
       for (var i = 0; i < block.body.length; i++) {
-        var declarPath = this.blockPath.get("body")[i];
-        addDeclarationsFromChild(declarPath);
+        addDeclarationsFromChild(declarPaths[i]);
       }
     }
 
     if (block.cases) {
+      var _declarPaths = this.blockPath.get("cases");
+
       for (var _i = 0; _i < block.cases.length; _i++) {
         var consequents = block.cases[_i].consequent;
 
         for (var j = 0; j < consequents.length; j++) {
-          var _declarPath = this.blockPath.get("cases")[_i];
-
           var declar = consequents[j];
-          addDeclarationsFromChild(_declarPath, declar);
+          addDeclarationsFromChild(_declarPaths[_i], declar);
         }
       }
     }

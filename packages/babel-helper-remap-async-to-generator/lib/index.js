@@ -65,12 +65,15 @@ function _default(path, file, helpers) {
     file: file,
     wrapAwait: helpers.wrapAwait
   });
+  var isIIFE = path.parentPath.isCallExpression({
+    callee: path.node
+  });
   path.node.async = false;
   path.node.generator = true;
   (0, _helperWrapFunction.default)(path, helpers.wrapAsync);
   var isProperty = path.isObjectMethod() || path.isClassMethod() || path.parentPath.isObjectProperty() || path.parentPath.isClassProperty();
 
-  if (!isProperty) {
-    (0, _helperAnnotateAsPure.default)(path.isDeclaration() ? path.get("declarations.0.init") : path);
+  if (!isProperty && !isIIFE && path.isExpression()) {
+    (0, _helperAnnotateAsPure.default)(path);
   }
 }

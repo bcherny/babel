@@ -1,7 +1,7 @@
 "use strict";
 
 exports.__esModule = true;
-exports.patternLikeCommon = exports.functionDeclarationCommon = exports.functionCommon = void 0;
+exports.patternLikeCommon = exports.functionDeclarationCommon = exports.functionTypeAnnotationCommon = exports.functionCommon = void 0;
 
 var _isValidIdentifier = _interopRequireDefault(require("../validators/isValidIdentifier"));
 
@@ -111,7 +111,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
       optional: true
     },
     typeParameters: {
-      validate: (0, _utils.assertNodeType)("TypeParameterInstantiation"),
+      validate: (0, _utils.assertNodeType)("TypeParameterInstantiation", "TSTypeParameterInstantiation"),
       optional: true
     }
   }
@@ -237,17 +237,20 @@ var functionCommon = {
   async: {
     validate: (0, _utils.assertValueType)("boolean"),
     default: false
-  },
+  }
+};
+exports.functionCommon = functionCommon;
+var functionTypeAnnotationCommon = {
   returnType: {
     validate: (0, _utils.assertNodeType)("TypeAnnotation", "TSTypeAnnotation", "Noop"),
     optional: true
   },
   typeParameters: {
-    validate: (0, _utils.assertNodeType)("TypeParameterDeclaration", "Noop"),
+    validate: (0, _utils.assertNodeType)("TypeParameterDeclaration", "TSTypeParameterDeclaration", "Noop"),
     optional: true
   }
 };
-exports.functionCommon = functionCommon;
+exports.functionTypeAnnotationCommon = functionTypeAnnotationCommon;
 var functionDeclarationCommon = Object.assign({}, functionCommon, {
   declare: {
     validate: (0, _utils.assertValueType)("boolean"),
@@ -262,7 +265,7 @@ exports.functionDeclarationCommon = functionDeclarationCommon;
 (0, _utils.default)("FunctionDeclaration", {
   builder: ["id", "params", "body", "generator", "async"],
   visitor: ["id", "params", "body", "returnType", "typeParameters"],
-  fields: Object.assign({}, functionDeclarationCommon, {
+  fields: Object.assign({}, functionDeclarationCommon, functionTypeAnnotationCommon, {
     body: {
       validate: (0, _utils.assertNodeType)("BlockStatement")
     }
@@ -272,7 +275,7 @@ exports.functionDeclarationCommon = functionDeclarationCommon;
 (0, _utils.default)("FunctionExpression", {
   inherits: "FunctionDeclaration",
   aliases: ["Scopable", "Function", "BlockParent", "FunctionParent", "Expression", "Pureish"],
-  fields: Object.assign({}, functionCommon, {
+  fields: Object.assign({}, functionCommon, functionTypeAnnotationCommon, {
     id: {
       validate: (0, _utils.assertNodeType)("Identifier"),
       optional: true
@@ -459,7 +462,7 @@ exports.patternLikeCommon = patternLikeCommon;
 });
 (0, _utils.default)("ObjectMethod", {
   builder: ["kind", "key", "params", "body", "computed"],
-  fields: Object.assign({}, functionCommon, {
+  fields: Object.assign({}, functionCommon, functionTypeAnnotationCommon, {
     kind: {
       validate: (0, _utils.chain)((0, _utils.assertValueType)("string"), (0, _utils.assertOneOf)("method", "get", "set")),
       default: "method"

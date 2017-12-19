@@ -50,6 +50,16 @@ function validateArrayOfType(nodeTypeName) {
   return validate(arrayOfType(nodeTypeName));
 }
 
+var tSFunctionTypeAnnotationCommon = {
+  returnType: {
+    validate: (0, _utils.assertNodeType)("TSTypeAnnotation", "Noop"),
+    optional: true
+  },
+  typeParameters: {
+    validate: (0, _utils.assertNodeType)("TSTypeParameterDeclaration", "Noop"),
+    optional: true
+  }
+};
 (0, _utils.default)("TSParameterProperty", {
   aliases: ["LVal"],
   visitor: ["parameter"],
@@ -70,11 +80,11 @@ function validateArrayOfType(nodeTypeName) {
 (0, _utils.default)("TSDeclareFunction", {
   aliases: ["Statement", "Declaration"],
   visitor: ["id", "typeParameters", "params", "returnType"],
-  fields: _core.functionDeclarationCommon
+  fields: Object.assign({}, _core.functionDeclarationCommon, tSFunctionTypeAnnotationCommon)
 });
 (0, _utils.default)("TSDeclareMethod", {
   visitor: ["decorators", "key", "typeParameters", "params", "returnType"],
-  fields: _es.classMethodOrDeclareMethodCommon
+  fields: Object.assign({}, _es.classMethodOrDeclareMethodCommon, tSFunctionTypeAnnotationCommon)
 });
 (0, _utils.default)("TSQualifiedName", {
   aliases: ["TSEntityName"],
@@ -85,7 +95,7 @@ function validateArrayOfType(nodeTypeName) {
   }
 });
 var signatureDeclarationCommon = {
-  typeParameters: validateOptionalType("TypeParameterDeclaration"),
+  typeParameters: validateOptionalType("TSTypeParameterDeclaration"),
   parameters: validateArrayOfType(["Identifier", "RestElement"]),
   typeAnnotation: validateOptionalType("TSTypeAnnotation")
 };
@@ -152,7 +162,7 @@ var fnOrCtr = {
   visitor: ["typeName", "typeParameters"],
   fields: {
     typeName: validateType("TSEntityName"),
-    typeParameters: validateOptionalType("TypeParameterInstantiation")
+    typeParameters: validateOptionalType("TSTypeParameterInstantiation")
   }
 });
 (0, _utils.default)("TSTypePredicate", {
@@ -228,7 +238,7 @@ var unionOrIntersection = {
   visitor: ["typeParameter", "typeAnnotation"],
   fields: {
     readonly: validateOptional(bool),
-    typeParameter: validateType("TypeParameter"),
+    typeParameter: validateType("TSTypeParameter"),
     optional: validateOptional(bool),
     typeAnnotation: validateOptionalType("TSType")
   }
@@ -245,7 +255,7 @@ var unionOrIntersection = {
   visitor: ["expression", "typeParameters"],
   fields: {
     expression: validateType("TSEntityName"),
-    typeParameters: validateOptionalType("TypeParameterInstantiation")
+    typeParameters: validateOptionalType("TSTypeParameterInstantiation")
   }
 });
 (0, _utils.default)("TSInterfaceDeclaration", {
@@ -254,7 +264,7 @@ var unionOrIntersection = {
   fields: {
     declare: validateOptional(bool),
     id: validateType("Identifier"),
-    typeParameters: validateOptionalType("TypeParameterDeclaration"),
+    typeParameters: validateOptionalType("TSTypeParameterDeclaration"),
     extends: validateOptional(arrayOfType("TSExpressionWithTypeArguments")),
     body: validateType("TSInterfaceBody")
   }
@@ -271,7 +281,7 @@ var unionOrIntersection = {
   fields: {
     declare: validateOptional(bool),
     id: validateType("Identifier"),
-    typeParameters: validateOptionalType("TypeParameterDeclaration"),
+    typeParameters: validateOptionalType("TSTypeParameterDeclaration"),
     typeAnnotation: validateType("TSType")
   }
 });

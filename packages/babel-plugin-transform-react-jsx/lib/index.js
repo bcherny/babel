@@ -85,7 +85,7 @@ function _default(api, options) {
 
   visitor.JSXAttribute = function (path) {
     if (_core.types.isJSXElement(path.node.value)) {
-      path.node.value = _core.types.jSXExpressionContainer(path.node.value);
+      path.node.value = _core.types.jsxExpressionContainer(path.node.value);
     }
   };
 

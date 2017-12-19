@@ -74,7 +74,7 @@ function rewriteLiveReferences(programPath, metadata) {
       }
 
       var _localName3 = _ref9;
-      imported.set(_localName3, [null, null, _localName3]);
+      imported.set(_localName3, [_source, null, _localName3]);
     }
   }
 
@@ -119,13 +119,20 @@ function rewriteLiveReferences(programPath, metadata) {
     scope: programPath.scope,
     imported: imported,
     exported: exported,
-    buildImportReference: function buildImportReference(_ref5) {
+    buildImportReference: function buildImportReference(_ref5, identNode) {
       var source = _ref5[0],
           importName = _ref5[1],
           localName = _ref5[2];
-      if (localName) return null;
-      var name = metadata.source.get(source).name;
-      return t.memberExpression(t.identifier(name), t.identifier(importName));
+      var meta = metadata.source.get(source);
+
+      if (localName) {
+        if (meta.lazy) identNode = t.callExpression(identNode, []);
+        return identNode;
+      }
+
+      var namespace = t.identifier(meta.name);
+      if (meta.lazy) namespace = t.callExpression(namespace, []);
+      return t.memberExpression(namespace, t.identifier(importName));
     }
   });
 }
@@ -194,7 +201,7 @@ var rewriteReferencesVisitor = {
     var importData = imported.get(localName);
 
     if (importData) {
-      var ref = buildImportReference(importData) || path.node;
+      var ref = buildImportReference(importData, path.node);
 
       if (path.parentPath.isCallExpression({
         callee: path.node
@@ -240,7 +247,7 @@ var rewriteReferencesVisitor = {
           var assignment = path.node;
 
           if (importData) {
-            assignment.left = buildImportReference(importData) || assignment.left;
+            assignment.left = buildImportReference(importData, assignment.left);
             assignment.right = t.sequenceExpression([assignment.right, buildImportThrow(localName)]);
           }
 

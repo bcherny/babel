@@ -21,7 +21,7 @@ function _default() {
 
   var visitor = {
     JSXOpeningElement: function JSXOpeningElement(path, state) {
-      var id = _core.types.jSXIdentifier(TRACE_ID);
+      var id = _core.types.jsxIdentifier(TRACE_ID);
 
       var location = path.container.openingElement.loc;
 
@@ -50,7 +50,7 @@ function _default() {
       }
 
       var trace = makeTrace(state.fileNameIdentifier, location.start.line);
-      attributes.push(_core.types.jSXAttribute(id, _core.types.jSXExpressionContainer(trace)));
+      attributes.push(_core.types.jsxAttribute(id, _core.types.jsxExpressionContainer(trace)));
     }
   };
   return {

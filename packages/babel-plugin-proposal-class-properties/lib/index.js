@@ -218,14 +218,8 @@ function _default(api, options) {
             id: ref
           });
           path.replaceWith(_core.types.assignmentExpression("=", ref, path.node));
-        } else {
-          if (!path.node.id) {
-            path.node.id = ref;
-          }
-
-          if (path.parentPath.isExportDeclaration()) {
-            path = path.parentPath;
-          }
+        } else if (!path.node.id) {
+          path.node.id = ref;
         }
 
         path.insertAfter(nodes);

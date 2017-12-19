@@ -12,11 +12,11 @@ function _default() {
     JSXOpeningElement: function JSXOpeningElement(_ref) {
       var node = _ref.node;
 
-      var id = _core.types.jSXIdentifier(TRACE_ID);
+      var id = _core.types.jsxIdentifier(TRACE_ID);
 
       var trace = _core.types.thisExpression();
 
-      node.attributes.push(_core.types.jSXAttribute(id, _core.types.jSXExpressionContainer(trace)));
+      node.attributes.push(_core.types.jsxAttribute(id, _core.types.jsxExpressionContainer(trace)));
     }
   };
   return {

@@ -13,6 +13,8 @@ var _codeFrame = require("@babel/code-frame");
 
 var _file = _interopRequireDefault(require("./file/file"));
 
+var _missingPluginHelper = _interopRequireDefault(require("./util/missing-plugin-helper"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
@@ -112,16 +114,23 @@ function parser(pluginPasses, options, code) {
 
     throw new Error("More than one plugin attempted to override parsing.");
   } catch (err) {
-    var loc = err.loc;
+    var loc = err.loc,
+        missingPlugin = err.missingPlugin;
 
     if (loc) {
       err.loc = null;
-      err.message = (options.filename || "unknown") + ": " + err.message + "\n" + (0, _codeFrame.codeFrameColumns)(code, {
+      var codeFrame = (0, _codeFrame.codeFrameColumns)(code, {
         start: {
           line: loc.line,
           column: loc.column + 1
         }
       }, options);
+
+      if (missingPlugin) {
+        err.message = (options.filename || "unknown") + ": " + (0, _missingPluginHelper.default)(missingPlugin[0], loc, codeFrame);
+      } else {
+        err.message = (options.filename || "unknown") + ": " + err.message + "\n\n" + codeFrame;
+      }
     }
 
     throw err;

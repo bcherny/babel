@@ -254,7 +254,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function assert(type, node, opts) {
   if (!(0, _is.default)(type, node, opts)) {
-    throw new Error("Expected type \"" + type + "\" with option " + JSON.stringify(opts));
+    throw new Error("Expected type \"" + type + "\" with option " + JSON.stringify(opts) + ", but instead got \"" + node.type + "\".");
   }
 }
 

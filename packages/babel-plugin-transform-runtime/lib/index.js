@@ -21,7 +21,7 @@ function _default(api, options) {
       regenerator = options.regenerator,
       useBuiltIns = options.useBuiltIns,
       useESModules = options.useESModules;
-  var notRegenerator = regenerator !== false;
+  var regeneratorEnabled = regenerator !== false;
   var notPolyfillOrDoesUseBuiltIns = polyfill === false || useBuiltIns;
   var isPolyfillAndUseBuiltIns = polyfill && useBuiltIns;
   var baseHelpersDir = useBuiltIns ? "helpers/builtin" : "helpers";
@@ -76,7 +76,7 @@ function _default(api, options) {
             parent = path.parent,
             scope = path.scope;
 
-        if (node.name === "regeneratorRuntime" && notRegenerator) {
+        if (node.name === "regeneratorRuntime" && regeneratorEnabled) {
           path.replaceWith(this.addDefaultImport(this.moduleName + "/regenerator", "regeneratorRuntime"));
           return;
         }

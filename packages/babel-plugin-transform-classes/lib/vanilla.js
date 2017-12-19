@@ -29,21 +29,6 @@ var noMethodVisitor = {
 };
 
 var verifyConstructorVisitor = _core.traverse.visitors.merge([noMethodVisitor, {
-  MemberExpression: {
-    exit: function exit(path) {
-      var objectPath = path.get("object");
-
-      if (this.isDerived && !this.hasBareSuper && objectPath.isSuper()) {
-        var hasArrowFunctionParent = path.findParent(function (p) {
-          return p.isArrowFunctionExpression();
-        });
-
-        if (!hasArrowFunctionParent) {
-          throw objectPath.buildCodeFrameError("'super.*' is not allowed before super()");
-        }
-      }
-    }
-  },
   CallExpression: {
     exit: function exit(path) {
       if (path.get("callee").isSuper()) {
@@ -56,14 +41,17 @@ var verifyConstructorVisitor = _core.traverse.visitors.merge([noMethodVisitor, {
     }
   },
   ThisExpression: function ThisExpression(path) {
-    if (this.isDerived && !this.hasBareSuper) {
-      var fn = path.find(function (p) {
-        return p.isFunction();
-      });
-
-      if (!fn || !fn.isArrowFunctionExpression()) {
-        throw path.buildCodeFrameError("'this' is not allowed before super()");
+    if (this.isDerived) {
+      if (path.parentPath.isMemberExpression({
+        object: path.node
+      })) {
+        return;
       }
+
+      var assertion = _core.types.callExpression(this.file.addHelper("assertThisInitialized"), [path.node]);
+
+      path.replaceWith(assertion);
+      path.skip();
     }
   }
 }]);
@@ -255,6 +243,7 @@ var ClassTransformer = function () {
           methodNode: node,
           objectRef: this.classRef,
           superRef: this.superName,
+          inConstructor: isConstructor,
           isStatic: node.static,
           isLoose: this.isLoose,
           scope: this.scope,
@@ -377,11 +366,6 @@ var ClassTransformer = function () {
     if (!this.isDerived) return;
     var path = this.userConstructorPath;
     var body = path.get("body");
-
-    if (!this.hasBareSuper && !this.superReturns.length) {
-      throw path.buildCodeFrameError("missing super() call in constructor");
-    }
-
     path.traverse(findThisesVisitor, this);
     var guaranteedSuperBeforeFinish = !!this.bareSupers.length;
 
@@ -418,7 +402,7 @@ var ClassTransformer = function () {
             return true;
           }
 
-          if (parentPath.isLoop() || parentPath.isConditional()) {
+          if (parentPath.isLoop() || parentPath.isConditional() || parentPath.isArrowFunctionExpression()) {
             guaranteedSuperBeforeFinish = false;
             return true;
           }
@@ -447,7 +431,9 @@ var ClassTransformer = function () {
 
     if (this.isLoose) {
       wrapReturn = function wrapReturn(returnArg) {
-        return returnArg ? _core.types.logicalExpression("||", returnArg, _thisRef()) : _thisRef();
+        var thisExpr = _core.types.callExpression(_this2.file.addHelper("assertThisInitialized"), [_thisRef()]);
+
+        return returnArg ? _core.types.logicalExpression("||", returnArg, thisExpr) : thisExpr;
       };
     } else {
       wrapReturn = function wrapReturn(returnArg) {
@@ -457,7 +443,7 @@ var ClassTransformer = function () {
 
     var bodyPaths = body.get("body");
 
-    if (bodyPaths.length && !bodyPaths.pop().isReturnStatement()) {
+    if (!bodyPaths.length || !bodyPaths.pop().isReturnStatement()) {
       body.pushContainer("body", _core.types.returnStatement(guaranteedSuperBeforeFinish ? _thisRef() : wrapReturn()));
     }
 

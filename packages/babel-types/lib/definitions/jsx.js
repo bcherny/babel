@@ -44,7 +44,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
   }
 });
 (0, _utils.default)("JSXEmptyExpression", {
-  aliases: ["JSX", "Expression"]
+  aliases: ["JSX"]
 });
 (0, _utils.default)("JSXExpressionContainer", {
   visitor: ["expression"],
@@ -66,7 +66,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 });
 (0, _utils.default)("JSXIdentifier", {
   builder: ["name"],
-  aliases: ["JSX", "Expression"],
+  aliases: ["JSX"],
   fields: {
     name: {
       validate: (0, _utils.assertValueType)("string")
@@ -75,7 +75,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 });
 (0, _utils.default)("JSXMemberExpression", {
   visitor: ["object", "property"],
-  aliases: ["JSX", "Expression"],
+  aliases: ["JSX"],
   fields: {
     object: {
       validate: (0, _utils.assertNodeType)("JSXMemberExpression", "JSXIdentifier")

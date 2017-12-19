@@ -5,6 +5,8 @@ exports.default = _default;
 
 var _pluginSyntaxDynamicImport = _interopRequireDefault(require("@babel/plugin-syntax-dynamic-import"));
 
+var _pluginSyntaxImportMeta = _interopRequireDefault(require("@babel/plugin-syntax-import-meta"));
+
 var _pluginProposalAsyncGeneratorFunctions = _interopRequireDefault(require("@babel/plugin-proposal-async-generator-functions"));
 
 var _pluginProposalClassProperties = _interopRequireDefault(require("@babel/plugin-proposal-class-properties"));
@@ -39,7 +41,7 @@ function _default(context, opts) {
   }
 
   return {
-    plugins: [_pluginSyntaxDynamicImport.default, _pluginProposalAsyncGeneratorFunctions.default, [_pluginProposalClassProperties.default, {
+    plugins: [_pluginSyntaxDynamicImport.default, _pluginSyntaxImportMeta.default, _pluginProposalAsyncGeneratorFunctions.default, [_pluginProposalClassProperties.default, {
       loose: loose
     }], [_pluginProposalObjectRestSpread.default, {
       useBuiltIns: useBuiltIns

@@ -180,7 +180,7 @@ function hoistFunctionEnvironment(fnPath, specCompliant, allowInsertArrow) {
 
     if (!specCompliant || inConstructor && hasSuperClass(thisEnvFn)) {
       thisPaths.forEach(function (thisChild) {
-        thisChild.replaceWith(thisChild.isJSX() ? t.jSXIdentifier(thisBinding) : t.identifier(thisBinding));
+        thisChild.replaceWith(thisChild.isJSX() ? t.jsxIdentifier(thisBinding) : t.identifier(thisBinding));
       });
       if (specCompliant) thisBinding = null;
     }

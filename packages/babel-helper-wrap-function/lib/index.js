@@ -13,8 +13,9 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var buildWrapper = (0, _template.default)("\n  (() => {\n    var REF = FUNCTION;\n    return function NAME(PARAMS) {\n      return REF.apply(this, arguments);\n    };\n  })\n");
-var namedBuildWrapper = (0, _template.default)("\n  (() => {\n    var REF = FUNCTION;\n    function NAME(PARAMS) {\n      return REF.apply(this, arguments);\n    }\n    return NAME;\n  })\n");
+var buildExpressionWrapper = _template.default.expression("\n  (function () {\n    var REF = FUNCTION;\n    return function NAME(PARAMS) {\n      return REF.apply(this, arguments);\n    };\n  })()\n");
+
+var buildDeclarationWrapper = (0, _template.default)("\n  function NAME(PARAMS) { return REF.apply(this, arguments); }\n  function REF() {\n    REF = FUNCTION;\n    return REF.apply(this, arguments);\n  }\n");
 
 function classOrObjectMethod(path, callId) {
   var node = path.node;
@@ -30,12 +31,10 @@ function plainFunction(path, callId) {
   var node = path.node;
   var isDeclaration = path.isFunctionDeclaration();
   var functionId = node.id;
-  var wrapper = buildWrapper;
+  var wrapper = isDeclaration ? buildDeclarationWrapper : buildExpressionWrapper;
 
   if (path.isArrowFunctionExpression()) {
     path.arrowFunctionToExpression();
-  } else if (!isDeclaration && functionId) {
-    wrapper = namedBuildWrapper;
   }
 
   node.id = null;
@@ -47,7 +46,7 @@ function plainFunction(path, callId) {
   var built = t.callExpression(callId, [node]);
   var container = wrapper({
     NAME: functionId || null,
-    REF: path.scope.generateUidIdentifier("ref"),
+    REF: path.scope.generateUidIdentifier(functionId ? functionId.name : "ref"),
     FUNCTION: built,
     PARAMS: node.params.reduce(function (acc, param) {
       acc.done = acc.done || t.isAssignmentPattern(param) || t.isRestElement(param);
@@ -61,21 +60,13 @@ function plainFunction(path, callId) {
       params: [],
       done: false
     }).params
-  }).expression;
+  });
 
-  if (isDeclaration && functionId) {
-    var declar = t.variableDeclaration("let", [t.variableDeclarator(t.identifier(functionId.name), t.callExpression(container, []))]);
-    declar._blockHoist = true;
-
-    if (path.parentPath.isExportDefaultDeclaration()) {
-      path.parentPath.insertBefore(declar);
-      path.parentPath.replaceWith(t.exportNamedDeclaration(null, [t.exportSpecifier(t.identifier(functionId.name), t.identifier("default"))]));
-      return;
-    }
-
-    path.replaceWith(declar);
+  if (isDeclaration) {
+    path.replaceWith(container[0]);
+    path.insertAfter(container[1]);
   } else {
-    var retFunction = container.body.body[1].argument;
+    var retFunction = container.callee.body.body[1].argument;
 
     if (!functionId) {
       (0, _helperFunctionName.default)({
@@ -86,7 +77,7 @@ function plainFunction(path, callId) {
     }
 
     if (!retFunction || retFunction.id || node.params.length) {
-      path.replaceWith(t.callExpression(container, []));
+      path.replaceWith(container);
     } else {
       path.replaceWith(built);
     }
