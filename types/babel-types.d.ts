@@ -756,7 +756,12 @@ export interface ObjectTypeProperty extends Node {
   key: Expression;
   value: FlowTypeAnnotation;
   optional: boolean | null;
-  variance: "plus" | "minus" | null;
+  variance: Variance | null;
+}
+
+export interface Variance extends Node {
+  kind: "plus" | "minus";
+  type: "Variance";
 }
 
 export interface QualifiedTypeIdentifier extends Node {
