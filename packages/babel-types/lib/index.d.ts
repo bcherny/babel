@@ -174,7 +174,9 @@ export interface FunctionExpression extends Node {
 export interface Identifier extends Node {
   type: "Identifier";
   name: string;
-  typeAnnotation?: TypeAnnotation;
+  decorators?: Decorator[];
+  optional?: boolean;
+  typeAnnotation?: TypeAnnotation | TSTypeAnnotation | Noop;
 }
 
 export interface IfStatement extends Node {
@@ -618,15 +620,15 @@ export interface ExistentialTypeParam extends Node {
 
 export interface FunctionTypeAnnotation extends Node {
   type: "FunctionTypeAnnotation";
-  typeParameters: TypeParameterDeclaration;
-  params: FunctionTypeParam[];
-  rest: FunctionTypeParam;
-  returnType: FlowTypeAnnotation;
+  typeParameters: TypeParameterDeclaration | null;
+  params: FunctionTypeParam[] | null;
+  rest: FunctionTypeParam | null;
+  returnType: FlowTypeAnnotation | null;
 }
 
 export interface FunctionTypeParam extends Node {
   type: "FunctionTypeParam";
-  name: Identifier;
+  name: Identifier | null;
   typeAnnotation: FlowTypeAnnotation;
 }
 
