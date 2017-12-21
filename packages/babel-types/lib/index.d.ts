@@ -174,7 +174,7 @@ export interface FunctionExpression extends Node {
 export interface Identifier extends Node {
   type: "Identifier";
   name: string;
-  decorators?: Decorator[];
+  decorators: Decorator[];
   optional?: boolean;
   typeAnnotation?: TypeAnnotation | TSTypeAnnotation | Noop;
 }
@@ -620,15 +620,15 @@ export interface ExistentialTypeParam extends Node {
 
 export interface FunctionTypeAnnotation extends Node {
   type: "FunctionTypeAnnotation";
-  typeParameters: TypeParameterDeclaration | null;
-  params: FunctionTypeParam[] | null;
-  rest: FunctionTypeParam | null;
-  returnType: FlowTypeAnnotation | null;
+  typeParameters: TypeParameterDeclaration;
+  params: FunctionTypeParam[];
+  rest: FunctionTypeParam;
+  returnType: FlowTypeAnnotation;
 }
 
 export interface FunctionTypeParam extends Node {
   type: "FunctionTypeParam";
-  name: Identifier | null;
+  name: Identifier;
   typeAnnotation: FlowTypeAnnotation;
 }
 
@@ -1311,7 +1311,8 @@ export type TSType = TSAnyKeyword | TSArrayType | TSBooleanKeyword | TSConstruct
   | TSFunctionType | TSIndexedAccessType | TSIntersectionType | TSLiteralType | TSMappedType | TSNeverKeyword
   | TSNullKeyword | TSNumberKeyword | TSObjectKeyword | TSParenthesizedType | TSStringKeyword | TSSymbolKeyword
   | TSThisType | TSTupleType | TSTypeLiteral | TSTypeOperator | TSTypePredicate | TSTypeQuery | TSTypeReference
-  | TSUndefinedKeyword | TSUnionType | TSVoidKeyword | TSTypeParameterDeclaration | TSAsExpression | TSPropertySignature;
+  | TSUndefinedKeyword | TSUnionType | TSVoidKeyword | TSTypeParameterDeclaration | TSAsExpression | TSPropertySignature
+  | TSTypeAnnotation;
 
 export type TSEntityName = Identifier | TSQualifiedName;
 

@@ -442,6 +442,7 @@ defineType("TSNamespaceExportDeclaration", {
 });
 
 defineType("TSTypeAnnotation", {
+  aliases: ["TSType"],
   visitor: ["typeAnnotation"],
   fields: {
     typeAnnotation: {

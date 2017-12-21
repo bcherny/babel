@@ -372,6 +372,7 @@ var unionOrIntersection = {
   }
 });
 (0, _utils.default)("TSTypeAnnotation", {
+  aliases: ["TSType"],
   visitor: ["typeAnnotation"],
   fields: {
     typeAnnotation: {
