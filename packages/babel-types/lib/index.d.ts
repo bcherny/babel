@@ -1285,15 +1285,12 @@ export type ModuleDeclaration = ExportAllDeclaration | ExportDefaultDeclaration 
 export type ExportDeclaration = ExportAllDeclaration | ExportDefaultDeclaration | ExportNamedDeclaration;
 export type ModuleSpecifier = ExportSpecifier | ImportDefaultSpecifier | ImportNamespaceSpecifier | ImportSpecifier | ExportDefaultSpecifier | ExportNamespaceSpecifier;
 
-export type Flow = AnyTypeAnnotation | ArrayTypeAnnotation | BooleanTypeAnnotation | BooleanLiteralTypeAnnotation
-  | ClassImplements | ClassProperty | DeclareClass | DeclareFunction | DeclareInterface | DeclareModule
-  | DeclareTypeAlias | DeclareVariable | ExistentialTypeParam | FunctionTypeAnnotation | FunctionTypeParam
-  | GenericTypeAnnotation | InterfaceExtends | InterfaceDeclaration | IntersectionTypeAnnotation
-  | MixedTypeAnnotation | NullableTypeAnnotation | NullLiteralTypeAnnotation | NumericLiteralTypeAnnotation | NumberTypeAnnotation
-  | StringLiteralTypeAnnotation | StringTypeAnnotation | ThisTypeAnnotation | TupleTypeAnnotation
-  | TypeofTypeAnnotation | TypeAlias | TypeAnnotation | TypeCastExpression | TypeParameterDeclaration
-  | TypeParameterInstantiation | ObjectTypeAnnotation | ObjectTypeCallProperty | ObjectTypeIndexer
-  | ObjectTypeProperty | QualifiedTypeIdentifier | UnionTypeAnnotation | VoidTypeAnnotation;
+export type Flow = ClassImplements | ClassProperty | DeclareClass | DeclareFunction | DeclareInterface | DeclareModule
+  | DeclareTypeAlias | DeclareVariable | ExistentialTypeParam | FunctionTypeParam
+  | InterfaceExtends | InterfaceDeclaration
+  | TypeAlias | TypeCastExpression | TypeParameterDeclaration
+  | TypeParameterInstantiation | ObjectTypeCallProperty | ObjectTypeIndexer
+  | ObjectTypeProperty | QualifiedTypeIdentifier | FlowTypeAnnotation;
 
 export type FlowTypeAnnotation = AnyTypeAnnotation | ArrayTypeAnnotation | BooleanTypeAnnotation
   | BooleanLiteralTypeAnnotation | FunctionTypeAnnotation | GenericTypeAnnotation | IntersectionTypeAnnotation
