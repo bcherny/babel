@@ -88,6 +88,8 @@ export interface CallExpression extends Node {
   type: "CallExpression";
   callee: Expression | Super;
   arguments: Array<Expression | SpreadElement>;
+  optional: boolean | null;
+  typeParameters: TypeParameterInstantiation | TSTypeParameterInstantiation | null;
 }
 
 export interface CatchClause extends Node {
@@ -235,6 +237,8 @@ export interface NewExpression extends Node {
   type: "NewExpression";
   callee: Expression | Super;
   arguments: Array<Expression | SpreadElement>;
+  optional: boolean | null;
+  typeParameters: TypeParameterInstantiation | TSTypeParameterInstantiation | null;
 }
 
 export interface Program extends Node {
@@ -383,7 +387,7 @@ export interface ArrowFunctionExpression extends Node {
 
 export interface ClassBody extends Node {
   type: "ClassBody";
-  body: Array<ClassMethod | ClassProperty>;
+  body: Array<ClassMethod | ClassProperty | TSDeclareMethod | TSIndexSignature>;
 }
 
 export interface ClassDeclaration extends Node {
@@ -392,10 +396,12 @@ export interface ClassDeclaration extends Node {
   superClass: Expression;
   body: ClassBody;
   decorators?: Decorator[];
-  implements?: ClassImplements[];
+  abstract: boolean | null;
+  declare: boolean | null;
+  implements?: Array<TSExpressionWithTypeArguments | ClassImplements> | null;
   mixins?: any[];
-  typeParameters?: TypeParameterDeclaration;
-  superTypeParameters?: TypeParameterInstantiation;
+  typeParameters?: TypeParameterDeclaration | TSTypeParameterDeclaration | Noop | null;
+  superTypeParameters?: TypeParameterInstantiation | TSTypeParameterInstantiation | null;
 }
 
 export interface ClassExpression extends Node {
@@ -404,10 +410,10 @@ export interface ClassExpression extends Node {
   superClass: Expression;
   body: ClassBody;
   decorators?: Decorator[];
-  implements?: ClassImplements[];
+  implements?: Array<TSExpressionWithTypeArguments | ClassImplements>;
   mixins?: any[];
-  typeParameters?: TypeParameterDeclaration;
-  superTypeParameters?: TypeParameterInstantiation;
+  typeParameters: TypeParameterDeclaration | TSTypeParameterDeclaration | Noop | null;
+  superTypeParameters: TypeParameterInstantiation | TSTypeParameterInstantiation | null;
 }
 
 export interface ExportAllDeclaration extends Node {
@@ -570,9 +576,15 @@ export interface ClassImplements extends Node {
 export interface ClassProperty extends Node {
   type: "ClassProperty";
   key: Identifier;
-  value: Expression;
-  decorators?: Decorator[];
-  typeAnnotation?: TypeAnnotation;
+  value: Expression | null;
+  accessibility: "public" | "private" | "protected" | null;
+  abstract: boolean | null;
+  computed: boolean | null;
+  decorators: Decorator[] | null;
+  optional?: boolean;
+  readonly: boolean | null;
+  static: boolean | null;
+  typeAnnotation: TypeAnnotation | TSTypeAnnotation | Noop | null;
 }
 
 export interface DeclareClass extends Node {
