@@ -58,7 +58,7 @@ See also `t.isArrayTypeAnnotation(node, opts)` and `t.assertArrayTypeAnnotation(
 
 Aliases: `Flow`
 
- - `elementType` (required)
+ - `elementType`: `Flow` (required)
 
 ---
 
@@ -190,6 +190,7 @@ See also `t.isBooleanLiteralTypeAnnotation(node, opts)` and `t.assertBooleanLite
 
 Aliases: `Flow`
 
+ - `value`: `boolean` (default: `null`)
 
 ---
 
@@ -310,8 +311,8 @@ See also `t.isClassImplements(node, opts)` and `t.assertClassImplements(node, op
 
 Aliases: `Flow`
 
- - `id` (required)
- - `typeParameters` (required)
+ - `id`: `Identifier` (required)
+ - `typeParameters`: `TypeParameterInstantiation` (default: `null`)
 
 ---
 
@@ -413,10 +414,11 @@ See also `t.isDeclareClass(node, opts)` and `t.assertDeclareClass(node, opts)`.
 
 Aliases: `Flow`, `FlowDeclaration`, `Statement`, `Declaration`
 
- - `id` (required)
- - `typeParameters` (required)
- - `extends` (required)
- - `body` (required)
+ - `id`: `Identifier` (required)
+ - `typeParameters`: `TypeParameterInstantiation` (default: `null`)
+ - `extends`: `Array<InterfaceExtends>` (default: `null`)
+ - `body`: `ObjectTypeAnnotation` (required)
+ - `mixins`: `Array<InterfaceExtends>` (default: `null`)
 
 ---
 
@@ -429,7 +431,8 @@ See also `t.isDeclareExportAllDeclaration(node, opts)` and `t.assertDeclareExpor
 
 Aliases: `Flow`, `FlowDeclaration`, `Statement`, `Declaration`
 
- - `source` (required)
+ - `source`: `StringLiteral` (required)
+ - `exportKind`: `["type","value"]` (default: `null`)
 
 ---
 
@@ -442,9 +445,10 @@ See also `t.isDeclareExportDeclaration(node, opts)` and `t.assertDeclareExportDe
 
 Aliases: `Flow`, `FlowDeclaration`, `Statement`, `Declaration`
 
- - `declaration` (required)
- - `specifiers` (required)
- - `source` (required)
+ - `declaration`: `TSType` (default: `null`)
+ - `specifiers`: `Array<ExportSpecifier | ExportNamespaceSpecifier>` (default: `null`)
+ - `source`: `StringLiteral` (default: `null`)
+ - `default`: `boolean` (default: `null`)
 
 ---
 
@@ -457,7 +461,8 @@ See also `t.isDeclareFunction(node, opts)` and `t.assertDeclareFunction(node, op
 
 Aliases: `Flow`, `FlowDeclaration`, `Statement`, `Declaration`
 
- - `id` (required)
+ - `id`: `Identifier` (required)
+ - `predicate`: `DeclaredPredicate` (default: `null`)
 
 ---
 
@@ -470,10 +475,11 @@ See also `t.isDeclareInterface(node, opts)` and `t.assertDeclareInterface(node, 
 
 Aliases: `Flow`, `FlowDeclaration`, `Statement`, `Declaration`
 
- - `id` (required)
- - `typeParameters` (required)
- - `extends` (required)
- - `body` (required)
+ - `id`: `Identifier` (required)
+ - `typeParameters`: `TypeParameterDeclaration` (default: `null`)
+ - `extends`: `InterfaceExtends` (default: `null`)
+ - `body`: `ObjectTypeAnnotation` (required)
+ - `mixins`: `Array<Flow>` (default: `null`)
 
 ---
 
@@ -486,8 +492,9 @@ See also `t.isDeclareModule(node, opts)` and `t.assertDeclareModule(node, opts)`
 
 Aliases: `Flow`, `FlowDeclaration`, `Statement`, `Declaration`
 
- - `id` (required)
- - `body` (required)
+ - `id`: `Identifier | StringLiteral` (required)
+ - `body`: `BlockStatement` (required)
+ - `kind`: `any` (default: `null`)
 
 ---
 
@@ -500,7 +507,7 @@ See also `t.isDeclareModuleExports(node, opts)` and `t.assertDeclareModuleExport
 
 Aliases: `Flow`, `FlowDeclaration`, `Statement`, `Declaration`
 
- - `typeAnnotation` (required)
+ - `typeAnnotation`: `TypeAnnotation` (required)
 
 ---
 
@@ -513,9 +520,9 @@ See also `t.isDeclareOpaqueType(node, opts)` and `t.assertDeclareOpaqueType(node
 
 Aliases: `Flow`, `FlowDeclaration`, `Statement`, `Declaration`
 
- - `id` (required)
- - `typeParameters` (required)
- - `supertype` (required)
+ - `id`: `Identifier` (required)
+ - `typeParameters`: `TypeParameterDeclaration` (default: `null`)
+ - `supertype`: `Flow` (default: `null`)
 
 ---
 
@@ -528,9 +535,9 @@ See also `t.isDeclareTypeAlias(node, opts)` and `t.assertDeclareTypeAlias(node, 
 
 Aliases: `Flow`, `FlowDeclaration`, `Statement`, `Declaration`
 
- - `id` (required)
- - `typeParameters` (required)
- - `right` (required)
+ - `id`: `Identifier` (required)
+ - `typeParameters`: `TypeParameterDeclaration` (default: `null`)
+ - `right`: `Flow` (required)
 
 ---
 
@@ -543,7 +550,7 @@ See also `t.isDeclareVariable(node, opts)` and `t.assertDeclareVariable(node, op
 
 Aliases: `Flow`, `FlowDeclaration`, `Statement`, `Declaration`
 
- - `id` (required)
+ - `id`: `Identifier` (required)
 
 ---
 
@@ -556,7 +563,7 @@ See also `t.isDeclaredPredicate(node, opts)` and `t.assertDeclaredPredicate(node
 
 Aliases: `Flow`, `FlowPredicate`
 
- - `value` (required)
+ - `value`: `Flow` (required)
 
 ---
 
@@ -858,10 +865,10 @@ See also `t.isFunctionTypeAnnotation(node, opts)` and `t.assertFunctionTypeAnnot
 
 Aliases: `Flow`
 
- - `typeParameters` (required)
- - `params` (required)
- - `rest` (required)
- - `returnType` (required)
+ - `typeParameters`: `TypeParameterDeclaration` (default: `null`)
+ - `params`: `Array<FunctionTypeParam>` (required)
+ - `rest`: `FunctionTypeParam` (default: `null`)
+ - `returnType`: `Flow` (required)
 
 ---
 
@@ -874,8 +881,9 @@ See also `t.isFunctionTypeParam(node, opts)` and `t.assertFunctionTypeParam(node
 
 Aliases: `Flow`
 
- - `name` (required)
- - `typeAnnotation` (required)
+ - `name`: `Identifier` (default: `null`)
+ - `typeAnnotation`: `Flow` (required)
+ - `optional`: `boolean` (default: `null`)
 
 ---
 
@@ -888,8 +896,8 @@ See also `t.isGenericTypeAnnotation(node, opts)` and `t.assertGenericTypeAnnotat
 
 Aliases: `Flow`
 
- - `id` (required)
- - `typeParameters` (required)
+ - `id`: `Identifier` (required)
+ - `typeParameters`: `TypeParameterInstantiation` (default: `null`)
 
 ---
 
@@ -1012,10 +1020,11 @@ See also `t.isInterfaceDeclaration(node, opts)` and `t.assertInterfaceDeclaratio
 
 Aliases: `Flow`, `FlowDeclaration`, `Statement`, `Declaration`
 
- - `id` (required)
- - `typeParameters` (required)
- - `extends` (required)
- - `body` (required)
+ - `id`: `Identifier` (required)
+ - `typeParameters`: `TypeParameterDeclaration` (default: `null`)
+ - `extends`: `Array<InterfaceExtends>` (required)
+ - `body`: `ObjectTypeAnnotation` (required)
+ - `mixins`: `Array<InterfaceExtends>` (default: `null`)
 
 ---
 
@@ -1028,8 +1037,8 @@ See also `t.isInterfaceExtends(node, opts)` and `t.assertInterfaceExtends(node, 
 
 Aliases: `Flow`
 
- - `id` (required)
- - `typeParameters` (required)
+ - `id`: `Identifier` (required)
+ - `typeParameters`: `TypeParameterInstantiation` (default: `null`)
 
 ---
 
@@ -1042,7 +1051,7 @@ See also `t.isIntersectionTypeAnnotation(node, opts)` and `t.assertIntersectionT
 
 Aliases: `Flow`
 
- - `types` (required)
+ - `types`: `Array<Flow>` (required)
 
 ---
 
@@ -1378,7 +1387,7 @@ See also `t.isNullableTypeAnnotation(node, opts)` and `t.assertNullableTypeAnnot
 
 Aliases: `Flow`
 
- - `typeAnnotation` (required)
+ - `typeAnnotation`: `Flow` (required)
 
 ---
 
@@ -1391,6 +1400,7 @@ See also `t.isNumberLiteralTypeAnnotation(node, opts)` and `t.assertNumberLitera
 
 Aliases: `Flow`
 
+ - `value`: `number` (default: `null`)
 
 ---
 
@@ -1495,9 +1505,10 @@ See also `t.isObjectTypeAnnotation(node, opts)` and `t.assertObjectTypeAnnotatio
 
 Aliases: `Flow`
 
- - `properties` (required)
- - `indexers` (required)
- - `callProperties` (required)
+ - `properties`: `Array<ObjectTypeProperty | ObjectTypeSpreadProperty>` (required)
+ - `indexers`: `Array<ObjectTypeIndexer>` (default: `null`)
+ - `callProperties`: `Array<ObjectTypeCallProperty>` (default: `null`)
+ - `exact`: `boolean` (default: `null`)
 
 ---
 
@@ -1510,7 +1521,8 @@ See also `t.isObjectTypeCallProperty(node, opts)` and `t.assertObjectTypeCallPro
 
 Aliases: `Flow`, `UserWhitespacable`
 
- - `value` (required)
+ - `value`: `Flow` (required)
+ - `static`: `boolean` (default: `null`)
 
 ---
 
@@ -1523,9 +1535,10 @@ See also `t.isObjectTypeIndexer(node, opts)` and `t.assertObjectTypeIndexer(node
 
 Aliases: `Flow`, `UserWhitespacable`
 
- - `id` (required)
- - `key` (required)
- - `value` (required)
+ - `id`: `Identifier` (default: `null`)
+ - `key`: `Flow` (required)
+ - `value`: `Flow | Identifier` (required)
+ - `static`: `boolean` (default: `null`)
 
 ---
 
@@ -1538,8 +1551,12 @@ See also `t.isObjectTypeProperty(node, opts)` and `t.assertObjectTypeProperty(no
 
 Aliases: `Flow`, `UserWhitespacable`
 
- - `key` (required)
- - `value` (required)
+ - `key`: `Identifier` (required)
+ - `value`: `Identifier | Flow` (required)
+ - `kind`: `"init"` (default: `null`)
+ - `optional`: `boolean` (default: `null`)
+ - `static`: `boolean` (default: `null`)
+ - `variance`: `Variance` (default: `null`)
 
 ---
 
@@ -1552,7 +1569,7 @@ See also `t.isObjectTypeSpreadProperty(node, opts)` and `t.assertObjectTypeSprea
 
 Aliases: `Flow`, `UserWhitespacable`
 
- - `argument` (required)
+ - `argument`: `Flow` (required)
 
 ---
 
@@ -1565,10 +1582,10 @@ See also `t.isOpaqueType(node, opts)` and `t.assertOpaqueType(node, opts)`.
 
 Aliases: `Flow`, `FlowDeclaration`, `Statement`, `Declaration`
 
- - `id` (required)
- - `typeParameters` (required)
- - `supertype` (required)
- - `impltype` (required)
+ - `id`: `Identifier` (required)
+ - `typeParameters`: `TypeParameterDeclaration` (default: `null`)
+ - `supertype`: `Flow` (default: `null`)
+ - `impltype`: `Flow` (required)
 
 ---
 
@@ -1610,8 +1627,9 @@ See also `t.isQualifiedTypeIdentifier(node, opts)` and `t.assertQualifiedTypeIde
 
 Aliases: `Flow`
 
- - `id` (required)
+ - `id`: `Identifier` (required)
  - `qualification` (required)
+ - `qualifications`: `Identifier` (default: `null`)
 
 ---
 
@@ -1705,6 +1723,7 @@ See also `t.isStringLiteralTypeAnnotation(node, opts)` and `t.assertStringLitera
 
 Aliases: `Flow`
 
+ - `value`: `string` (default: `null`)
 
 ---
 
@@ -2603,7 +2622,7 @@ See also `t.isTupleTypeAnnotation(node, opts)` and `t.assertTupleTypeAnnotation(
 
 Aliases: `Flow`
 
- - `types` (required)
+ - `types`: `Array<Flow>` (required)
 
 ---
 
@@ -2616,9 +2635,9 @@ See also `t.isTypeAlias(node, opts)` and `t.assertTypeAlias(node, opts)`.
 
 Aliases: `Flow`, `FlowDeclaration`, `Statement`, `Declaration`
 
- - `id` (required)
- - `typeParameters` (required)
- - `right` (required)
+ - `id`: `Identifier` (required)
+ - `typeParameters`: `TypeParameterDeclaration` (default: `null`)
+ - `right`: `Flow` (required)
 
 ---
 
@@ -2644,8 +2663,8 @@ See also `t.isTypeCastExpression(node, opts)` and `t.assertTypeCastExpression(no
 
 Aliases: `Flow`, `ExpressionWrapper`, `Expression`
 
- - `expression` (required)
- - `typeAnnotation` (required)
+ - `expression`: `Flow` (required)
+ - `typeAnnotation`: `TypeAnnotation` (required)
 
 ---
 
@@ -2661,6 +2680,7 @@ Aliases: `Flow`
  - `bound`: `TypeAnnotation` (default: `null`)
  - `default`: `Flow` (default: `null`)
  - `name`: `string` (default: `null`)
+ - `variance`: `Variance` (default: `null`)
 
 ---
 
@@ -2699,7 +2719,7 @@ See also `t.isTypeofTypeAnnotation(node, opts)` and `t.assertTypeofTypeAnnotatio
 
 Aliases: `Flow`
 
- - `argument` (required)
+ - `argument`: `Flow` (required)
 
 ---
 
@@ -2727,7 +2747,7 @@ See also `t.isUnionTypeAnnotation(node, opts)` and `t.assertUnionTypeAnnotation(
 
 Aliases: `Flow`
 
- - `types` (required)
+ - `types`: `Array<Flow>` (required)
 
 ---
 

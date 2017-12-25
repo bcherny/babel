@@ -20,6 +20,40 @@ function getType(val) {
   }
 }
 
+export function validate(validate) {
+  return { validate };
+}
+
+export function typeIs(typeName: string | string[]) {
+  return typeof typeName === "string"
+    ? assertNodeType(typeName)
+    : assertNodeType(...typeName);
+}
+
+export function validateType(typeName: string | string[]) {
+  return validate(typeIs(typeName));
+}
+
+export function validateOptional(validate) {
+  return { validate, optional: true };
+}
+
+export function validateOptionalType(typeName: string | string[]) {
+  return { validate: typeIs(typeName), optional: true };
+}
+
+export function arrayOf(elementType) {
+  return chain(assertValueType("array"), assertEach(elementType));
+}
+
+export function arrayOfType(typeName: string | string[]) {
+  return arrayOf(typeIs(typeName));
+}
+
+export function validateArrayOfType(nodeTypeName) {
+  return validate(arrayOfType(nodeTypeName));
+}
+
 export function assertEach(callback: Function): Function {
   function validator(node, key, val) {
     if (!Array.isArray(val)) return;
