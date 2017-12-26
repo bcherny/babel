@@ -135,6 +135,10 @@ bootstrap:
 	make build
 	cd packages/babel-runtime; \
 	node scripts/build-dist.js
+	cp types/babel-generator.d.ts packages/babel-generator/lib/index.d.ts
+	cp types/babel-traverse.d.ts packages/babel-traverse/lib/index.d.ts
+	cp types/babel-types.d.ts packages/babel-types/lib/index.d.ts
+	cp types/babylon.d.ts packages/babylon/lib/index.d.ts
 
 clean-lib:
 	$(foreach source, $(SOURCES), \

@@ -314,7 +314,7 @@ See also `t.isClassImplements(node, opts)` and `t.assertClassImplements(node, op
 Aliases: `Flow`
 
  - `id` (required)
- - `typeParameters` (required)
+ - `typeParameters` (default: `null`)
 
 ---
 
@@ -861,10 +861,10 @@ See also `t.isFunctionTypeAnnotation(node, opts)` and `t.assertFunctionTypeAnnot
 
 Aliases: `Flow`
 
- - `typeParameters` (required)
- - `params` (required)
- - `rest` (required)
- - `returnType` (required)
+ - `typeParameters`
+ - `params`
+ - `rest`
+ - `returnType`
 
 ---
 
@@ -877,7 +877,7 @@ See also `t.isFunctionTypeParam(node, opts)` and `t.assertFunctionTypeParam(node
 
 Aliases: `Flow`
 
- - `name` (required)
+ - `name` (default: `null`)
  - `typeAnnotation` (required)
 
 ---
